@@ -51,16 +51,18 @@ services:
 
 # --------------- Nextcloud ----------------
   nextcloud:
-    image: linuxserver/nextcloud
+    image: nextcloud
     container_name: nextcloud
     restart: always
     ports:
       - 7005:80
+    links:
+      - mariadb:db
     volumes:
       - ${USERDIR}/docker/nextcloud:/config
       - ${USERDIR}/shared_data:/data
       - ${USERDIR}/docker/shared:/shared
-    envrionment:
+    environment:
       - PUID=${PUID}
       - PGID=${PGID}
 
@@ -80,7 +82,7 @@ services:
       - ${USERDIR}/docker/homeassistant:/config
       - ${USERDIR}/docker/shared:/shared
       - /etc/localtime:/etc/localtime:ro
-    priviledged: true
+    privileged: true
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -95,6 +97,7 @@ services:
     restart: always
     volumes:
       - ${USERDIR}/docker/mariadb:/config
+      - ${USERDIR}/docker/mariadb/mysql:/var/lib/mysql
     ports:
       - target: 3306
         published: 3306
