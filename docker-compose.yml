@@ -50,8 +50,42 @@ services:
 # ==========================================
 
 # --------------- Nextcloud ----------------
+  nextcloud:
+    image: linuxserver/nextcloud
+    container_name: nextcloud
+    restart: always
+    ports:
+      - 7005:80
+    volumes:
+      - ${USERDIR}/docker/nextcloud:/config
+      - ${USERDIR}/shared_data:/data
+      - ${USERDIR}/docker/shared:/shared
+    envrionment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+
 
 # ------------ Home Assistant --------------
+  homeassistant:
+    image: homeassistant/home-assistant
+    container_name: homeassistant
+    restart: always
+    ports:
+      - 7006:8123
+    devices:
+      - /dev/ttyUSB0:/dev/ttyUSB0
+      - /dev/ttyUSB1:/dev/ttyUSB1
+      - /dev/ttyACM0:/dev/ttyACM0
+    volumes:
+      - ${USERDIR}/docker/homeassistant:/config
+      - ${USERDIR}/docker/shared:/shared
+      - /etc/localtime:/etc/localtime:ro
+    priviledged: true
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+
 
 # --------------- Mariadb ------------------
   mariadb:
