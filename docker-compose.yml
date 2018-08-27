@@ -10,13 +10,13 @@ services:
     image: portainer/portainer
     container_name: portainer
     restart: always
-    command: -H unix:///var/run/docker.sock
     ports:
-      - "7000:9000"
+      - 7000:9000
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ${USERDIR}/docker/portainer/data:/data
       - ${USERDIR}/docker/shared:/shared
+    command: -H unix:///var/run/docker.sock
     environment:
       - TZ=${TZ}
 
@@ -32,9 +32,8 @@ services:
 
 # -------------- PhpMyAdmin ----------------
   phpmyadmin:
-    hostname: phpmyadmin
-    container_name: phpmyadmin
     image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
     restart: always
     links:
       - mariadb:db
@@ -43,6 +42,10 @@ services:
     environment:
       - PMA_HOST=mariadb
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      
+# ----------------- Guacd -------------------
+
+# ------------ Guacamole Server -------------
 
 
 # ==========================================
@@ -95,19 +98,21 @@ services:
     container_name: mariadb
     hostname: mariadb
     restart: always
-    volumes:
-      - ${USERDIR}/docker/mariadb:/config
-      - ${USERDIR}/docker/mariadb/mysql:/var/lib/mysql
     ports:
       - target: 3306
         published: 3306
         protocol: tcp
         mode: host
+    volumes:
+      - ${USERDIR}/docker/mariadb:/config
+      - ${USERDIR}/docker/mariadb/mysql:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
+ 
+ # -------------- Mumble ----------------
 
 
 # ==========================================
@@ -121,8 +126,40 @@ services:
 # ---------------- Radarr ------------------
 
 # ---------------- Sabnzbd -----------------
+  sabnzbd:
+    image: linuxserver/sabnzbd
+    container_name: sabnzbd
+    restart: always
+    ports:
+      - 7011:8080
+    volumes:
+      - ${USERDIR}/docker/sabnzbd:/config
+      - ${USERDIR}/downloads/nzb/complete:/downloads
+      - ${USERDIR}/downloads/nzb/incomplete:/incomplete-downloads
+      - ${USERDIR}/docker/shared:/shared
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+
 
 # ------------- Transmission ---------------
+  transmission:
+    image: linuxserver/transmission
+    container_name: transmission
+    restart: always
+    ports:
+      - 7010:9091
+      - 51413:51413
+      - 51413:51413/udp
+    volumes:
+      - ${USERDIR}/docker/transmission:/config
+      - ${USERDIR}/downloads/torrents:/downloads
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    
 
 # --------------- Tautulli -----------------
 
