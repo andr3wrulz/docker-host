@@ -44,8 +44,25 @@ services:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       
 # ----------------- Guacd -------------------
+  guacd:
+    image: guacamole/guacd
+    container_name: guacd
+    restart: always
+
 
 # ------------ Guacamole Server -------------
+  guacamole:
+    image: guacamole/guacamole
+    container_name: guacamole
+    restart: always
+    links:
+      - guacd:guacd
+    ports:
+      - 7003:8080
+    volumes:
+      - /${USERDIR}/docker/guacamole:/guac-home
+    environment:
+      - GUACAMOLE_HOME=/guac-home
 
 
 # ==========================================
@@ -113,6 +130,15 @@ services:
       - TZ=${TZ}
  
  # -------------- Mumble ----------------
+  mumble:
+    image: coppit/mumble-server
+    container_name: mumble
+    restart: always
+    ports:
+      - 64738:64738
+      - 64738:64738/udp
+    volumes:
+      - ${USERDIR}/docker/mumble:/data
 
 
 # ==========================================
@@ -120,6 +146,31 @@ services:
 # ==========================================
 
 # ----------------- Plex -------------------
+  plex:
+    image: plexinc/pms-docker
+    container_name: plex
+    restart: always
+    ports:
+      - 7020:32400/tcp
+      - 3005:3005/tcp
+      - 8324:8324/tcp
+      - 32469:32469/tcp
+      - 1900:1900/udp
+      - 32410:32410/udp
+      - 32412:32412/udp
+      - 32413:32413/udp
+      - 32414:32414/udp
+    volumes:
+      - ${USERDIR}/docker/plex:/config
+      - ${USERDIR}/downloads/plex_tmp:/transcode
+      - ${USERDIR}/media:/media
+      - ${USERDIR}/docker/shared:/shared
+    environment:
+      - TZ=${TZ}
+      - HOSTNAME="Andrew's Plex"
+      - PLEX_CLAIM="claim-94pzwPAT1aK46j9ZjisL"
+      - PLEX_UID=${PUID}
+      - PLEX_GID=${PGID}
 
 # ---------------- Sonarr ------------------
   sonarr:
@@ -192,8 +243,37 @@ services:
 
 
 # --------------- Tautulli -----------------
+  tautulli:
+    image: linuxserver/tautulli
+    container_name: tautulli
+    restart: always
+    ports:
+      - 7014:8181
+    volumes:
+      - ${USERDIR}/docker/tautulli/config:/config
+      - ${USERDIR}/docker/tautulli/logs:/logs:ro
+      - ${USERDIR}/docker/shared:/shared
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+
 
 # ----------------- Ombi -------------------
+  ombi:
+    image: linuxserver/ombi
+    container_name: ombi
+    restart: always
+    ports:
+      - 7015:3579
+    volumes:
+      - ${USERDIR}/docker/ombi:/config
+      - ${USERDIR}/docker/shared:/shared
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+
 
 # --------------- Organizr -----------------
   organizr:
@@ -212,5 +292,35 @@ services:
 
 
 # --------------- NzbHydra -----------------
+  nzbhydra:
+    image: linuxserver/hydra
+    container_name: nzbhydra
+    restart: always
+    ports:
+      - 7016:5075
+    volumes:
+      - ${USERDIR}/docker/nzbhydra:/config
+      - ${USERDIR}/downloads:/downloads
+      - ${USERDIR}/docker/shared:/shared
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
 
 # --------------- Jackett ------------------
+  jackett:
+    image: linuxserver/jackett
+    container_name: jackett
+    restart: always
+    ports:
+      - 7017:9117
+    volumes:
+      - ${USERDIR}/docker/jackett:/config
+      - ${USERDIR}/downloads:/downloads
+      - ${USERDIR}/docker/shared:/shared
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    
