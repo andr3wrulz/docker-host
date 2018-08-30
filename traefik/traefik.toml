@@ -1,9 +1,11 @@
 defaultEntryPoints = ["http", "https"]
 
 # Enable and setup the admin panel
-[web]
-address = ":8080"
-  [web.auth.basic]
+[api]
+  entryPoint = "traefik"
+  dashboard = true
+  address = ":8080"
+  [api.auth.basic]
   users = ["andr3wrulz:$apr1$82hBSr/f$mckMJO5Ri816FuR97le6Z."]
 
 # These rules determine how to route http/https requests
