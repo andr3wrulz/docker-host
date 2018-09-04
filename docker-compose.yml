@@ -125,6 +125,8 @@ services:
     restart: always
     networks:
       - internal
+    labels:
+      - traefik.enable=false
 
 
 # ------------ Guacamole Server -------------
@@ -229,6 +231,8 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
+    labels:
+      - traefik.enable=false
  
  # -------------- Mumble ----------------
   mumble:
