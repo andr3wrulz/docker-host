@@ -38,7 +38,7 @@ services:
       - traefik.backend=portainer
       - traefik.frontend.rule=Host:portainer.andrewgeltz.com
       - traefik.docker.network=proxy
-      - traefik.port=7000
+      - traefik.port=9000
 
 # -------------- Watchtower ----------------
   watchtower:
@@ -73,7 +73,7 @@ services:
       - traefik.backend=traefik
       - traefik.frontend.rule=Host:traefik.andrewgeltz.com
       - traefik.docker.network=proxy
-      - traefik.port=7004
+      - traefik.port=8080
 
 
 # -------------- PhpMyAdmin ----------------
@@ -95,7 +95,7 @@ services:
 #      - traefik.backend=phpmyadmin
 #      - traefik.frontend.rule=Host:phpmyadmin.andrewgeltz.com
 #      - traefik.docker.network=proxy
-#      - traefik.port=7001
+#      - traefik.port=80
 
 
 # -------------- Adminer ----------------
@@ -116,7 +116,7 @@ services:
       - traefik.backend=adminer
       - traefik.frontend.rule=Host:adminer.andrewgeltz.com
       - traefik.docker.network=proxy
-      - traefik.port=7001
+      - traefik.port=8080
 
 
 # ----------------- Guacd -------------------
@@ -148,7 +148,7 @@ services:
       - traefik.backend=guacamole
       - traefik.frontend.rule=Host:guacamole.andrewgeltz.com
       - traefik.docker.network=proxy
-      - traefik.port=7003
+      - traefik.port=8080
 
 
 # ==========================================
@@ -177,7 +177,7 @@ services:
       - traefik.backend=nextcloud
       - traefik.frontend.rule=Host:nextcloud.andrewgeltz.com
       - traefik.docker.network=proxy
-      - traefik.port=7005
+      - traefik.port=80
 
 
 # ------------ Home Assistant --------------
@@ -206,7 +206,7 @@ services:
       - traefik.backend=homeassistant
       - traefik.frontend.rule=Host:homeassistant.andrewgeltz.com
       - traefik.docker.network=proxy
-      - traefik.port=7006
+      - traefik.port=8123
 
 
 # --------------- Mariadb ------------------
@@ -286,7 +286,7 @@ services:
       - traefik.backend=plex
       - traefik.frontend.rule=Host:plex.andrewgeltz.com
       - traefik.docker.network=proxy
-      - traefik.port=7020
+      - traefik.port=32400
 
 # ---------------- Sonarr ------------------
   sonarr:
@@ -307,7 +307,7 @@ services:
       - traefik.backend=sonarr
       - traefik.frontend.rule=Host:sonarr.andrewgeltz.com
       - traefik.docker.network=proxy
-      - traefik.port=7013
+      - traefik.port=8989
 
 
 # ---------------- Radarr ------------------
@@ -333,7 +333,7 @@ services:
       - traefik.backend=radarr
       - traefik.frontend.rule=Host:radarr.andrewgeltz.com
       - traefik.docker.network=proxy
-      - traefik.port=7012
+      - traefik.port=7878
 
 
 # ---------------- Sabnzbd -----------------
@@ -358,7 +358,7 @@ services:
       - traefik.backend=sabnzbd
       - traefik.frontend.rule=Host:sabnzbd.andrewgeltz.com
       - traefik.docker.network=proxy
-      - traefik.port=7011
+      - traefik.port=8080
 
 
 # ------------- Transmission ---------------
@@ -383,7 +383,7 @@ services:
       - traefik.backend=transmission
       - traefik.frontend.rule=Host:transmission.andrewgeltz.com
       - traefik.docker.network=proxy
-      - traefik.port=7010
+      - traefik.port=9091
 
 
 # --------------- Tautulli -----------------
@@ -407,7 +407,7 @@ services:
       - traefik.backend=tautulli
       - traefik.frontend.rule=Host:tautulli.andrewgeltz.com
       - traefik.docker.network=proxy
-      - traefik.port=7014
+      - traefik.port=8181
 
 
 # ----------------- Ombi -------------------
@@ -430,7 +430,7 @@ services:
       - traefik.backend=ombi
       - traefik.frontend.rule=Host:ombi.andrewgeltz.com
       - traefik.docker.network=proxy
-      - traefik.port=7015
+      - traefik.port=3579
 
 
 # --------------- Organizr -----------------
@@ -453,7 +453,7 @@ services:
       - traefik.backend=organizr
       - traefik.frontend.rule=Host:organizr.andrewgeltz.com
       - traefik.docker.network=proxy
-      - traefik.port=7002
+      - traefik.port=80
 
 
 # --------------- NzbHydra -----------------
@@ -477,7 +477,7 @@ services:
       - traefik.backend=nazbhydra
       - traefik.frontend.rule=Host:nzbhydra.andrewgeltz.com
       - traefik.docker.network=proxy
-      - traefik.port=7016
+      - traefik.port=5075
 
 # --------------- Jackett ------------------
   jackett:
@@ -501,5 +501,5 @@ services:
       - traefik.backend=jackett
       - traefik.frontend.rule=Host:jackett.andrewgeltz.com
       - traefik.docker.network=proxy
-      - traefik.port=7017
+      - traefik.port=9117
     
