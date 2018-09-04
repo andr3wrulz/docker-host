@@ -150,6 +150,7 @@ services:
       - traefik.frontend.rule=Host:guacamole.andrewgeltz.com
       - traefik.docker.network=proxy
       - traefik.port=8080
+      - traefik.enable=false
 
 
 # ==========================================
