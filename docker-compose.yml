@@ -368,28 +368,54 @@ services:
 
 
 # ------------- Transmission ---------------
-  transmission:
-    image: linuxserver/transmission
-    container_name: transmission
+#  transmission:
+#    image: linuxserver/transmission
+#    container_name: transmission
+#    restart: always
+#    networks:
+#      - proxy
+#    ports:
+#      - 7010:9091
+#      - 51413:51413
+#      - 51413:51413/udp
+#    volumes:
+#      - ${USERDIR}/docker/transmission:/config
+#      - /mnt/data/downloads/torrents:/downloads
+#    environment:
+#      - PUID=${PUID}
+#      - PGID=${PGID}
+#      - TZ=${TZ}
+#    labels:
+#      - traefik.backend=transmission
+#      - traefik.frontend.rule=Host:transmission.andrewgeltz.com
+#      - traefik.docker.network=proxy
+#      - traefik.port=9091
+
+
+# ------------- qBittorrent ---------------
+  qbittorrent:
+    image: linuxserver/qbittorrent
+    container_name: "qbittorrent"
     restart: always
-    networks:
-      - proxy
     ports:
-      - 7010:9091
-      - 51413:51413
-      - 51413:51413/udp
+      - 7010:7010
+      - 6881:6881
+      - 6881:6881/udp
     volumes:
-      - ${USERDIR}/docker/transmission:/config
+      - ${USERDIR}/docker/qbittorrent:/config
       - /mnt/data/downloads/torrents:/downloads
+      - ${USERDIR}/docker/shared:/shared
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
+      - UMASK_SET=002
+      - WEBUI_PORT=7010
     labels:
-      - traefik.backend=transmission
-      - traefik.frontend.rule=Host:transmission.andrewgeltz.com
+      - traefik.backend=qbittorrent
+      - traefik.frontend.rule=Host:qbittorrent.andrewgeltz.com
       - traefik.docker.network=proxy
-      - traefik.port=9091
+      - traefik.port=7010
 
 
 # --------------- Tautulli -----------------
