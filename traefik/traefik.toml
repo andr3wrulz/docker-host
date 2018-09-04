@@ -21,7 +21,7 @@ defaultEntryPoints = ["http", "https"]
 # Let's Encrypt setup
 [acme]
 email = "geltz.andrew@gmail.com"
-storage = "/acme.json"
+storage = "/etc/traefik/acme/acme.json"
 entryPoint = "https"
 onHostRule = true
 onDemand = false
