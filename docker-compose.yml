@@ -64,8 +64,7 @@ services:
       - 443:443
       - 7004:8080
     volumes:
-      - ${USERDIR}/docker/traefik/traefik.toml:/traefik.toml
-      - ${USERDIR}/docker/acme/acme.json:/acme.json
+      - ${USERDIR}/docker/traefik:/etc/traefik
       - ${USERDIR}/docker/shared:/shared
       - /var/run/docker.sock:/var/run/docker.sock:ro
     command: --docker
