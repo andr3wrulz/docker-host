@@ -271,6 +271,8 @@ services:
       - 32412:32412/udp
       - 32413:32413/udp
       - 32414:32414/udp
+    expose:
+      - 32400
     volumes:
       - ${USERDIR}/docker/plex:/config
       - ${USERDIR}/downloads/plex_tmp:/transcode
