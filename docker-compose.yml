@@ -478,6 +478,7 @@ services:
       - ${USERDIR}/docker/organizr:/config
       - ${USERDIR}/docker/shared:/shared
     environment:
+      - ADVERTISE_IP:http://192.168.1.101:32400
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
