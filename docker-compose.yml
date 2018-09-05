@@ -254,6 +254,20 @@ services:
       - traefik.port=64738
 
 
+# ----------------- Squid ------------------
+  squid:
+    image: sameersbn/squid
+    container_name: squid
+    restart: always
+    networks:
+      - proxy
+    ports:
+      - 7008:3218
+    volumes:
+      - ${USERDIR}/docker/squid:/etc/squid/
+      - ${USERDIR}/docker/squid/cache:/var/spool/squid
+
+
 # ==========================================
 # ||                Media                 ||
 # ==========================================
