@@ -284,15 +284,26 @@ services:
       - ${USERDIR}/docker/shared:/shared
     environment:
       - TZ=${TZ}
-      - HOSTNAME="Andrew's Plex"
+      - ADVERTISE_IP:http://192.168.1.101:32400
+      - HOSTNAME="Docker Plex"
       - PLEX_CLAIM="claim-94pzwPAT1aK46j9ZjisL"
       - PLEX_UID=${PUID}
       - PLEX_GID=${PGID}
     labels:
       - traefik.backend=plex
       - traefik.frontend.rule=Host:plex.andrewgeltz.com
-      - traefik.docker.network=proxy
       - traefik.port=32400
+      - traefik.protocol=http
+      - traefik.docker.network=traefik_proxy
+      - traefik.frontend.headers.SSLRedirect=true
+      - traefik.frontend.headers.STSSeconds=315360000
+      - traefik.frontend.headers.browserXSSFilter=true
+      - traefik.frontend.headers.contentTypeNosniff=true
+      - traefik.frontend.headers.forceSTSHeader=true
+      - traefik.frontend.headers.SSLHost=andrewgeltz.com
+      - traefik.frontend.headers.STSIncludeSubdomains=true
+      - traefik.frontend.headers.STSPreload=true
+      - traefik.frontend.headers.frameDeny=true
 
 # ---------------- Sonarr ------------------
   sonarr:
@@ -478,7 +489,6 @@ services:
       - ${USERDIR}/docker/organizr:/config
       - ${USERDIR}/docker/shared:/shared
     environment:
-      - ADVERTISE_IP:http://192.168.1.101:32400
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
