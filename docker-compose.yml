@@ -489,27 +489,27 @@ services:
 
 
 # --------------- NzbHydra -----------------
-  nzbhydra:
-    image: linuxserver/hydra2
-    container_name: nzbhydra
-    restart: always
-    networks:
-      - proxy
-    ports:
-      - 7016:5076
-    volumes:
-      - ${USERDIR}/docker/nzbhydra:/config
-      - /mnt/data/downloads:/downloads
-      - ${USERDIR}/docker/shared:/shared
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
-    labels:
-      - traefik.backend=nazbhydra
-      - traefik.frontend.rule=Host:nzbhydra.andrewgeltz.com
-      - traefik.docker.network=proxy
-      - traefik.port=5076
+#  nzbhydra:
+#    image: linuxserver/hydra2
+#    container_name: nzbhydra
+#    restart: always
+#    networks:
+#      - proxy
+#    ports:
+#      - 7016:5076
+#    volumes:
+#      - ${USERDIR}/docker/nzbhydra:/config
+#      - /mnt/data/downloads:/downloads
+#      - ${USERDIR}/docker/shared:/shared
+#    environment:
+#      - PUID=${PUID}
+#      - PGID=${PGID}
+#      - TZ=${TZ}
+#    labels:
+#      - traefik.backend=nazbhydra
+#      - traefik.frontend.rule=Host:nzbhydra.andrewgeltz.com
+#      - traefik.docker.network=proxy
+#      - traefik.port=5076
 
 # --------------- Jackett ------------------
   jackett:
