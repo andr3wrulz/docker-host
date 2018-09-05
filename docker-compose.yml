@@ -353,8 +353,8 @@ services:
       - 7011:8080
     volumes:
       - ${USERDIR}/docker/sabnzbd:/config
-      - /mnt/data/downloads/nzb/complete:/downloads
-      - /mnt/data/downloads/nzb/incomplete:/incomplete-downloads
+      - /mnt/data/downloads:/downloads
+      - /mnt/data/downloads/incomplete:/incomplete-downloads
       - ${USERDIR}/docker/shared:/shared
     environment:
       - PUID=${PUID}
@@ -403,7 +403,7 @@ services:
       - 6881:6881/udp
     volumes:
       - ${USERDIR}/docker/qbittorrent:/config
-      - /mnt/data/downloads/torrents:/downloads
+      - /mnt/data/downloads:/downloads
       - ${USERDIR}/docker/shared:/shared
     environment:
       - PUID=${PUID}
