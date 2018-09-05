@@ -177,8 +177,7 @@ services:
       - PGID=${PGID}
     labels:
       - traefik.backend=nextcloud
-      - traefik.frontend.rule=Host:nextcloud.andrewgeltz.com
-      - traefik.frontend.rule=Host:cloud.andrewgeltz.com
+      - traefik.frontend.rule=Host:nextcloud.andrewgeltz.com,cloud.andrewgeltz.com
       - traefik.docker.network=proxy
       - traefik.port=80
 
@@ -207,7 +206,7 @@ services:
       - TZ=${TZ}
     labels:
       - traefik.backend=homeassistant
-      - traefik.frontend.rule=Host:ha.andrewgeltz.com
+      - traefik.frontend.rule=Host:homeassistant.andrewgeltz.com,ha.andrewgeltz.com
       - traefik.docker.network=proxy
       - traefik.port=8123
 
@@ -476,9 +475,7 @@ services:
       - TZ=${TZ}
     labels:
       - traefik.backend=ombi
-      - traefik.frontend.rule=Host:ombi.andrewgeltz.com
-      - traefik.frontend.rule=Host:requests.andrewgeltz.com
-      - traefik.frontend.rule=Host:request.andrewgeltz.com
+      - traefik.frontend.rule=Host:ombi.andrewgeltz.com,requests.andrewgeltz.com,request.andrewgeltz.com
       - traefik.docker.network=proxy
       - traefik.port=3579
 
