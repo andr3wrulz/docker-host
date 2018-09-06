@@ -159,15 +159,16 @@ services:
 
 # --------------- Nextcloud ----------------
   nextcloud:
-    image: nextcloud
+    image: linuxserver/nextcloud
     container_name: nextcloud
     restart: always
     networks:
       - proxy
+      - internal
     ports:
       - 7005:80
     links:
-      - mariadb:db
+      - mariadb
     volumes:
       - ${USERDIR}/docker/nextcloud:/config
       - /mnt/data/nextcloud/data:/data
