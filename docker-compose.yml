@@ -183,7 +183,6 @@ services:
       - traefik.docker.network=proxy
       - traefik.port=443
       - traefik.protocol=https
-      - traefik.docker.network=proxy
       - traefik.frontend.headers.SSLRedirect=true
       - traefik.frontend.headers.STSSeconds=315360000
       - traefik.frontend.headers.browserXSSFilter=true
