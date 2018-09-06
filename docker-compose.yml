@@ -135,7 +135,7 @@ services:
     container_name: guacamole
     restart: always
     links:
-      - guacd:guacd
+      - guacd
     networks:
       - proxy
       - internal
@@ -145,6 +145,7 @@ services:
       - /${USERDIR}/docker/guacamole:/guac-home
     environment:
       - GUACAMOLE_HOME=/guac-home
+      - GUACD_HOSTNAME=guacd
     labels:
       - traefik.backend=guacamole
       - traefik.frontend.rule=Host:guacamole.andrewgeltz.com
