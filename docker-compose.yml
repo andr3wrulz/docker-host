@@ -159,20 +159,21 @@ services:
 
 # --------------- Nextcloud ----------------
   nextcloud:
-    image: linuxserver/nextcloud
+    image: nextcloud
     container_name: nextcloud
     restart: always
     networks:
       - proxy
       - internal
     ports:
-#      - 7009:80
-      - 7005:443
+      - 7005:80
+#      - 7009:443
     links:
       - mariadb
     volumes:
-      - ${USERDIR}/docker/nextcloud:/config
-      - /mnt/data/nextcloud/data:/data
+      - ${USERDIR}/docker/nextcloud:/var/www/html/config
+      - /mnt/data/nextcloud/data:/var/www/html/data
+      - /mnt/data/nextcloud/custom_apps:/var/www/html/custom_apps
       - ${USERDIR}/docker/shared:/shared
     environment:
       - PUID=${PUID}
@@ -181,17 +182,7 @@ services:
       - traefik.backend=nextcloud
       - traefik.frontend.rule=Host:nextcloud.andrewgeltz.com,cloud.andrewgeltz.com
       - traefik.docker.network=proxy
-      - traefik.port=443
-      - traefik.protocol=https
-      - traefik.frontend.headers.SSLRedirect=true
-      - traefik.frontend.headers.STSSeconds=315360000
-      - traefik.frontend.headers.browserXSSFilter=true
-      - traefik.frontend.headers.contentTypeNosniff=true
-      - traefik.frontend.headers.forceSTSHeader=true
-      - traefik.frontend.headers.SSLHost=andrewgeltz.com.com
-      - traefik.frontend.headers.STSIncludeSubdomains=true
-      - traefik.frontend.headers.STSPreload=true
-      - traefik.frontend.headers.frameDeny=true
+      - traefik.port=80
 
 
 # ------------ Home Assistant --------------
