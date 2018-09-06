@@ -136,6 +136,7 @@ services:
     restart: always
     links:
       - guacd
+      - mariadb:mysql
     networks:
       - proxy
       - internal
@@ -146,6 +147,7 @@ services:
     environment:
       - GUACAMOLE_HOME=/guac-home
       - GUACD_HOSTNAME=guacd
+      - MYSQL_HOSTNAME=mariadb
     labels:
       - traefik.backend=guacamole
       - traefik.frontend.rule=Host:guacamole.andrewgeltz.com
