@@ -171,9 +171,7 @@ services:
     links:
       - mariadb
     volumes:
-      - ${USERDIR}/docker/nextcloud:/var/www/html/config
-      - /mnt/data/nextcloud/data:/var/www/html/data
-      - /mnt/data/nextcloud/custom_apps:/var/www/html/custom_apps
+      - /mnt/data/nextcloud/:/var/www/html/
       - ${USERDIR}/docker/shared:/shared
     environment:
       - PUID=${PUID}
