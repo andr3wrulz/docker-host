@@ -167,6 +167,7 @@ services:
       - internal
     ports:
       - 7005:80
+      - 7009:443
     links:
       - mariadb
     volumes:
