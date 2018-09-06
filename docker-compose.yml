@@ -413,6 +413,8 @@ services:
     image: linuxserver/qbittorrent
     container_name: "qbittorrent"
     restart: always
+    networks:
+      - proxy
     ports:
       - 7010:7010
       - 6881:6881
