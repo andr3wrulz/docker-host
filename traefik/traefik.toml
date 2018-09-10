@@ -33,3 +33,24 @@ onDemand = false
 endpoint = "unix:///var/run/docker.sock"
 domain = "andrewgeltz.com"
 watch = true
+
+# Enable rules from within this file
+[file]
+
+# Begin non-docker backend config
+[backends]
+  [backends.nextcloud]
+    [backends.nextcloud.servers]
+      [backends.nextcloud.servers.server0]
+        url = "http://192.168.1.103"
+
+# Begin non-docker frontend config
+[frontends]
+  [frontends.nextcloud]
+    entryPoints = ["http", "https"]
+    backend = "nextcloud"
+    [frontends.nextcloud.routes]
+      [frontend.nextcloud.routes.route0]
+        rule = "Host:cloud.andrewgeltz.com"
+      [frontend.nextcloud.routes.route1]
+        rule = "Host:nextcloud.andrewgeltz.com"
