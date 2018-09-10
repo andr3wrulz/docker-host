@@ -265,9 +265,10 @@ services:
     ports:
       - 7008:3218
     volumes:
-      - ${USERDIR}/docker/squid:/etc/squid/
+      - ${USERDIR}/docker/squid/squid.conf:/etc/squid/squid.conf
       - ${USERDIR}/docker/squid/cache:/var/spool/squid
     labels:
+      - traefik.enabled=false
       - traefik.backend=squid
       - traefik.frontend.rule=Host:proxy.andrewgeltz.com,squid.andrewgeltz.com
       - traefik.docker.network=proxy
