@@ -158,29 +158,29 @@ services:
 # ==========================================
 
 # --------------- Nextcloud ----------------
-  nextcloud:
-    image: nextcloud
-    container_name: nextcloud
-    restart: always
-    networks:
-      - proxy
-      - internal
-    ports:
-      - 7005:80
+#  nextcloud:
+#    image: nextcloud
+#    container_name: nextcloud
+#    restart: always
+#    networks:
+#      - proxy
+#      - internal
+#    ports:
+#      - 7005:80
 #      - 7009:443
-    links:
-      - mariadb
-    volumes:
-      - /mnt/data/nextcloud:/var/www/html
-      - ${USERDIR}/docker/shared:/shared
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-    labels:
-      - traefik.backend=nextcloud
-      - traefik.frontend.rule=Host:nextcloud.andrewgeltz.com,cloud.andrewgeltz.com
-      - traefik.docker.network=proxy
-      - traefik.port=80
+#    links:
+#      - mariadb
+#    volumes:
+#      - /mnt/data/nextcloud:/var/www/html
+#      - ${USERDIR}/docker/shared:/shared
+#    environment:
+#      - PUID=${PUID}
+#      - PGID=${PGID}
+#    labels:
+#      - traefik.backend=nextcloud
+#      - traefik.frontend.rule=Host:nextcloud.andrewgeltz.com,cloud.andrewgeltz.com
+#      - traefik.docker.network=proxy
+#      - traefik.port=80
 
 
 # ------------ Home Assistant --------------
