@@ -21,7 +21,7 @@ restic backup $BACKUP_DIR
 echo "Executing retention policy: $(timestamp)" | tee -a $LOG_FILE
 # Remove snapshots according to policy
 # If run cron more frequently, might add --keep-hourly 24
-restic forget --keep-daily 1 --keep-weekly 7 --keep-monthly 6 --keep-yearly 5  | tee -a $LOG_FILE
+restic forget --keep-daily 7 --keep-weekly 4 --keep-monthly 6 --keep-yearly 10  | tee -a $LOG_FILE
 
 echo "Cleaning up repo: $(timestamp)" | tee -a $LOG_FILE
 # Remove unneeded data from the repository
