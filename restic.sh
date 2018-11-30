@@ -23,13 +23,15 @@ echo "Executing retention policy: $(timestamp)" | tee -a $LOG_FILE
 # If run cron more frequently, might add --keep-hourly 24
 restic forget --keep-daily 7 --keep-weekly 4 --keep-monthly 6 --keep-yearly 10  | tee -a $LOG_FILE
 
-echo "Cleaning up repo: $(timestamp)" | tee -a $LOG_FILE
-# Remove unneeded data from the repository
-restic prune
+if [[ $(date +%u) -eq 1 ]] ; then # Is it Monday (ie once per week)
+	echo "It's Monday - Cleaning up repo: $(timestamp)" | tee -a $LOG_FILE
+	# Remove unneeded data from the repository
+	restic prune
 
-echo "Checking repo for errors: $(timestamp)"
-# Check the repository for errors
-restic check | tee -a $LOG_FILE
+	echo "It's Monday - Checking repo for errors: $(timestamp)"
+	# Check the repository for errors
+	restic check | tee -a $LOG_FILE
+fi
 
 # insert timestamp into log
 printf "\n\n"
