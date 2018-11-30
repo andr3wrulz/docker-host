@@ -116,6 +116,22 @@ services:
       - traefik.docker.network=proxy
       - traefik.port=8080
 
+# ----------------- Apache -------------------
+  apache:
+    image: bitnami/apache
+    container_name: apache
+    restart: always
+    networks:
+      - proxy
+    ports:
+      - 6969:80
+    volumes:
+      - /${USERDIR}/docker/apache/www:/app
+    labels:
+      - traefik.backend=apache
+      - traefik.frontend.rule=Host:andrewgeltz.com
+      - traefik.docker.network=proxy
+      - traefik.port=80    
 
 # ----------------- Guacd -------------------
   guacd:
@@ -273,6 +289,26 @@ services:
 #      - traefik.docker.network=proxy
 #      - traefik.port=3218
 
+
+# ---------------- BookStack ---------------
+  bookstack:
+    image: solidnerd/bookstack
+    container_name: bookstack
+    restart: always
+    networks:
+      - internal
+      - proxy
+    ports:
+      - 7007:80
+    environment:
+      - DB_HOST=mariadb:3306
+      - DB_USERNAME=bookstack
+      - DB_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    labels:
+      - traefik.backend=bookstack
+      - traefik.frontend.rule=Host:bookstack.andrewgeltz.com,bs.andrewgeltz.com
+      - traefik.docker.network=proxy
+      - traefik.port=80
 
 # ==========================================
 # ||                Media                 ||
