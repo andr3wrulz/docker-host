@@ -116,22 +116,22 @@ services:
       - traefik.docker.network=proxy
       - traefik.port=8080
 
-# ----------------- Apache -------------------
-  apache:
-    image: bitnami/apache
-    container_name: apache
+# ----------------- Nginx -------------------
+  nginx:
+    image: nginx
+    container_name: nginx
     restart: always
     networks:
       - proxy
     ports:
       - 6969:80
     volumes:
-      - /${USERDIR}/docker/apache/www:/app
+      - ${USERDIR}/docker/nginx/www:/usr/share/nginx/html:ro
     labels:
-      - traefik.backend=apache
+      - traefik.backend=nginx
       - traefik.frontend.rule=Host:andrewgeltz.com
       - traefik.docker.network=proxy
-      - traefik.port=80    
+      - traefik.port=80
 
 # ----------------- Guacd -------------------
   guacd:
@@ -171,6 +171,27 @@ services:
 # ==========================================
 # ||                Misc                  ||
 # ==========================================
+
+# ---------------- SeaFile -----------------
+  seafile:
+    image: seafileltd/seafile
+    container_name: seafile
+    restart: always
+    networks:
+      - proxy
+      - internal
+    ports:
+      - 7005:80
+    volumes:
+      - /mnt/data/seafile:/shared
+    environment:
+      - SEAFILE_SERVER_HOSTNAME=seafile.andrewgeltz.com
+      - SEAFILE_ADMIN_EMAIL=geltz.andrew@gmail.com
+    labels:
+      - traefik.backend=seafile
+      - traefik.frontend.rule=Host:seafile.andrewgeltz.com
+      - traefik.docker.network=proxy
+      - traefik.port=80
 
 # --------------- Nextcloud ----------------
 #  nextcloud:
