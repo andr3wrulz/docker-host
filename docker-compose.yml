@@ -29,11 +29,11 @@ services:
       - 7000:9000
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ${USERDIR}/docker/portainer/data:/data
-      - ${USERDIR}/docker/shared:/shared
+      - "${USERDIR}/docker/portainer/data:/data"
+      - "${USERDIR}/docker/shared:/shared"
     command: -H unix:///var/run/docker.sock
     environment:
-      - TZ=${TZ}
+      - "TZ=${TZ}"
     labels:
       - traefik.backend=portainer
       - traefik.frontend.rule=Host:portainer.andrewgeltz.com
@@ -41,13 +41,13 @@ services:
       - traefik.port=9000
 
 # -------------- Watchtower ----------------
-#  watchtower:
-#    image: v2tec/watchtower
-#    container_name: watchtower
-#    restart: always
-#    volumes:
-#      - /var/run/docker.sock:/var/run/docker.sock
-#    command: --schedule "0 0 * * * *" --cleanup
+  watchtower:
+    image: v2tec/watchtower
+    container_name: watchtower
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --schedule "0 4 0 * * *" --cleanup # Run at 4am every day and remove old images
 
 
 # -------------- Traefik ----------------
@@ -63,8 +63,8 @@ services:
       - 443:443
       - 7004:8080
     volumes:
-      - ${USERDIR}/docker/traefik:/etc/traefik
-      - ${USERDIR}/docker/shared:/shared
+      - "${USERDIR}/docker/traefik:/etc/traefik"
+      - "${USERDIR}/docker/shared:/shared"
       - /var/run/docker.sock:/var/run/docker.sock:ro
     command: --docker
     labels:
@@ -126,7 +126,7 @@ services:
     ports:
       - 6969:80
     volumes:
-      - ${USERDIR}/docker/nginx/www:/usr/share/nginx/html:ro
+      - "${USERDIR}/docker/nginx/www:/usr/share/nginx/html:ro"
     labels:
       - traefik.backend=nginx
       - traefik.frontend.rule=Host:andrewgeltz.com
@@ -157,7 +157,7 @@ services:
     ports:
       - 7003:8080
     volumes:
-      - ${USERDIR}/docker/guacamole:/guac-home
+      - "${USERDIR}/docker/guacamole:/guac-home"
     environment:
       - GUACAMOLE_HOME=/guac-home
       - GUACD_HOSTNAME=guacd
@@ -233,14 +233,14 @@ services:
       - /dev/ttyUSB1:/dev/ttyUSB1
       - /dev/ttyACM0:/dev/ttyACM0
     volumes:
-      - ${USERDIR}/docker/homeassistant:/config
-      - ${USERDIR}/docker/shared:/shared
+      - "${USERDIR}/docker/homeassistant:/config"
+      - "${USERDIR}/docker/shared:/shared"
       - /etc/localtime:/etc/localtime:ro
     privileged: true
     environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"
+      - "TZ=${TZ}"
     labels:
       - traefik.backend=homeassistant
       - traefik.frontend.rule=Host:homeassistant.andrewgeltz.com,ha.andrewgeltz.com
@@ -262,13 +262,13 @@ services:
         protocol: tcp
         mode: host
     volumes:
-      - ${USERDIR}/docker/mariadb:/config
-      - ${USERDIR}/docker/mariadb/mysql:/var/lib/mysql
+      - "${USERDIR}/docker/mariadb:/config"
+      - "${USERDIR}/docker/mariadb/mysql:/var/lib/mysql"
     environment:
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
+      - "MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}"
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"
+      - "TZ=${TZ}"
     labels:
       - traefik.enable=false
  
@@ -283,7 +283,7 @@ services:
       - 64738:64738
       - 64738:64738/udp
     volumes:
-      - ${USERDIR}/docker/mumble:/data
+      - "${USERDIR}/docker/mumble:/data"
     labels:
       - traefik.backend=mumble
       - traefik.frontend.rule=Host:mumble.andrewgeltz.com
@@ -324,7 +324,7 @@ services:
     environment:
       - DB_HOST=mariadb:3306
       - DB_USERNAME=bookstack
-      - DB_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - "DB_PASSWORD=${MYSQL_ROOT_PASSWORD}"
     labels:
       - traefik.backend=bookstack
       - traefik.frontend.rule=Host:bookstack.andrewgeltz.com,bs.andrewgeltz.com
@@ -355,17 +355,17 @@ services:
     expose:
       - 32400
     volumes:
-      - ${USERDIR}/docker/plex:/config
-      - ${USERDIR}/downloads/plex_tmp:/transcode
+      - "${USERDIR}/docker/plex:/config"
+      - "${USERDIR}/downloads/plex_tmp:/transcode"
       - /mnt/data/media:/media
-      - ${USERDIR}/docker/shared:/shared
+      - "${USERDIR}/docker/shared:/shared"
     environment:
       - TZ=${TZ}
       - ADVERTISE_IP:http://192.168.1.101:32400
-      - HOSTNAME="DockerPlex"
-      - PLEX_CLAIM="claim-xm5qpLYJGxX2gBjZN9UH"
-      - PLEX_UID=${PUID}
-      - PLEX_GID=${PGID}
+      - HOSTNAME=DockerPlex
+      - PLEX_CLAIM=claim-xm5qpLYJGxX2gBjZN9UH
+      - "PLEX_UID=${PUID}"
+      - "PLEX_GID=${PGID}"
     labels:
       - traefik.backend=plex
       - traefik.frontend.rule=Host:plex.andrewgeltz.com
@@ -382,11 +382,13 @@ services:
     ports:
       - 7013:8989
     volumes:
-      - ${USERDIR}/docker/sonarr:/config
+      - "${USERDIR}/docker/sonarr:/config"
       - /mnt/data/downloads:/downloads
       - /mnt/data/media/tv:/tv
-      - ${USERDIR}/docker/shared:/shared
+      - "${USERDIR}/docker/shared:/shared"
       - /etc/localtime:/etc/localtime:ro
+    environment:
+      - XDG_CONFIG_HOME=/config
     labels:
       - traefik.backend=sonarr
       - traefik.frontend.rule=Host:sonarr.andrewgeltz.com
@@ -404,15 +406,15 @@ services:
     ports:
       - 7012:7878
     volumes:
-      - ${USERDIR}/docker/radarr:/config
+      - "${USERDIR}/docker/radarr:/config"
       - /mnt/data/downloads:/downloads
       - /mnt/data/media/movies:/movies
-      - ${USERDIR}/docker/shared:/shared
+      - "${USERDIR}/docker/shared:/shared"
       - /etc/localtime:/etc/localtime:ro
     environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"
+      - "TZ=${TZ}"
     labels:
       - traefik.backend=radarr
       - traefik.frontend.rule=Host:radarr.andrewgeltz.com
@@ -430,20 +432,43 @@ services:
     ports:
       - 7011:8080
     volumes:
-      - ${USERDIR}/docker/sabnzbd:/config
+      - "${USERDIR}/docker/sabnzbd:/config"
       - /mnt/data/downloads:/downloads
       - /mnt/data/downloads/incomplete:/incomplete-downloads
-      - ${USERDIR}/docker/shared:/shared
+      - "${USERDIR}/docker/shared:/shared"
     environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"
+      - "TZ=${TZ}"
     labels:
       - traefik.backend=sabnzbd
       - traefik.frontend.rule=Host:sabnzbd.andrewgeltz.com
       - traefik.docker.network=proxy
       - traefik.port=8080
 
+
+# ------------- Deluge ---------------
+  deluge:
+    image: linuxserver/deluge
+    container_name: deluge
+    restart: always
+    networks:
+      - proxy
+    ports:
+      - 7018:8112
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - ${USERDIR}/docker/deluge:/config
+      - /mnt/data/downloads/torrents:/downloads
+    labels:
+      - traefik.backend=deluge
+      - traefik.frontend.rule=Host:deluge.andrewgeltz.com
+      - traefik.docker.network=proxy
+      - traefik.port=8112
+    
 
 # ------------- Transmission ---------------
 #  transmission:
@@ -471,31 +496,31 @@ services:
 
 
 # ------------- qBittorrent ---------------
-  qbittorrent:
-    image: linuxserver/qbittorrent
-    container_name: "qbittorrent"
-    restart: always
-    networks:
-      - proxy
-    ports:
-      - 7010:7010
-      - 6881:6881
-      - 6881:6881/udp
-    volumes:
-      - ${USERDIR}/docker/qbittorrent:/config
-      - /mnt/data/downloads:/downloads
-      - ${USERDIR}/docker/shared:/shared
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
-      - UMASK_SET=002
-      - WEBUI_PORT=7010
-    labels:
-      - traefik.backend=qbittorrent
-      - traefik.frontend.rule=Host:qbittorrent.andrewgeltz.com
-      - traefik.docker.network=proxy
-      - traefik.port=7010
+#  qbittorrent:
+#    image: linuxserver/qbittorrent
+#    container_name: "qbittorrent"
+#    restart: always
+#    networks:
+#      - proxy
+#    ports:
+#      - 7010:7010
+#      - 6881:6881
+#      - 6881:6881/udp
+#    volumes:
+#      - "${USERDIR}/docker/qbittorrent:/config"
+#      - /mnt/data/downloads:/downloads
+#      - "${USERDIR}/docker/shared:/shared"
+#    environment:
+#      - "PUID=${PUID}"
+#      - "PGID=${PGID}"
+#      - "TZ=${TZ}"
+#      - UMASK_SET=002
+#      - WEBUI_PORT=7010
+#    labels:
+#      - traefik.backend=qbittorrent
+#      - traefik.frontend.rule=Host:qbittorrent.andrewgeltz.com
+#      - traefik.docker.network=proxy
+#      - traefik.port=7010
 
 
 # --------------- Tautulli -----------------
@@ -508,13 +533,13 @@ services:
     ports:
       - 7014:8181
     volumes:
-      - ${USERDIR}/docker/tautulli/config:/config
-      - ${USERDIR}/docker/tautulli/logs:/logs:ro
-      - ${USERDIR}/docker/shared:/shared
+      - "${USERDIR}/docker/tautulli/config:/config"
+      - "${USERDIR}/docker/tautulli/logs:/logs:ro"
+      - "${USERDIR}/docker/shared:/shared"
     environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"
+      - "TZ=${TZ}"
     labels:
       - traefik.backend=tautulli
       - traefik.frontend.rule=Host:tautulli.andrewgeltz.com
@@ -532,12 +557,12 @@ services:
     ports:
       - 7015:3579
     volumes:
-      - ${USERDIR}/docker/ombi:/config
-      - ${USERDIR}/docker/shared:/shared
+      - "${USERDIR}/docker/ombi:/config"
+      - "${USERDIR}/docker/shared:/shared"
     environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"
+      - "TZ=${TZ}"
     labels:
       - traefik.backend=ombi
       - traefik.frontend.rule=Host:ombi.andrewgeltz.com,requests.andrewgeltz.com,request.andrewgeltz.com
@@ -555,12 +580,12 @@ services:
     ports:
       - 7002:80
     volumes:
-      - ${USERDIR}/docker/organizr:/config
-      - ${USERDIR}/docker/shared:/shared
+      - "${USERDIR}/docker/organizr:/config"
+      - "${USERDIR}/docker/shared:/shared"
     environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"
+      - "TZ=${TZ}"
     labels:
       - traefik.backend=organizr
       - traefik.frontend.rule=Host:organizr.andrewgeltz.com
@@ -601,14 +626,14 @@ services:
     ports:
       - 7017:9117
     volumes:
-      - ${USERDIR}/docker/jackett:/config
+      - "${USERDIR}/docker/jackett:/config"
       - /mnt/data/downloads:/downloads
-      - ${USERDIR}/docker/shared:/shared
+      - "${USERDIR}/docker/shared:/shared"
       - /etc/localtime:/etc/localtime:ro
     environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"
+      - "TZ=${TZ}"
     labels:
       - traefik.backend=jackett
       - traefik.frontend.rule=Host:jackett.andrewgeltz.com
